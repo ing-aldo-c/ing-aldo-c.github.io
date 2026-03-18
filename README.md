@@ -40,6 +40,7 @@ dove ogni attività si è svolta.
 
 ## 📁 Struttura file
 │
+
 ├── index.html # Home page — presentazione e contatti
 
 └── mappa-2.html # CV Geospaziale interattivo
