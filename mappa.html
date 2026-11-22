@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WE0YS97JR2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WE0YS97JR2');
+</script>
+<meta charset="UTF-8">
+  <meta name="description" content="CV geospaziale dell'Ing. Cataldo (Aldo) Carletta: esperienze, formazione e convegni su mappa interattiva.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cataldo Carletta - CV Geospaziale</title>
+<meta property="og:title" content="Mappa CV — Ing. Cataldo Carletta">
+<meta property="og:description" content="Esplora le esperienze professionali e la formazione di Cataldo Carletta su mappa interattiva geolocalizzata.">
+<meta property="og:image" content="https://ing-aldo-c.github.io/assets/img/preview.png">
+<meta property="og:url" content="https://ing-aldo-c.github.io/mappa.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CV Geospaziale — Cataldo Carletta">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mappa CV — Ing. Cataldo Carletta">
+<meta name="twitter:description" content="Ingegnere Civile, GIS & SCADA Specialist. Esperienze e formazione geolocalizzate su mappa interattiva.">
+<meta name="twitter:image" content="https://ing-aldo-c.github.io/assets/img/preview.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0f172a">
+<link rel="canonical" href="https://ing-aldo-c.github.io/mappa.html">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/mappa.css?v=6">
+</head>
+<body>
+<div id="header">
+  <a class="brand" href="index.html" id="brandHome">
+    <div class="brand-logo">CC</div>
+    <div class="brand-text">
+      <span class="brand-name">Ing. Cataldo Carletta</span>
+      <span class="brand-sub" data-i18n="subtitle">CV Geospaziale Interattivo</span>
+    </div>
+  </a>
+  <div class="hbtns">
+    <div class="lang-switch" role="group" aria-label="Lingua / Language">
+      <button class="lang-btn" data-lang="it" onclick="setLang('it')">IT</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="mailto:ing.aldocarletta@gmail.com" class="email"><i class="fas fa-envelope"></i> <span data-i18n="email">Email</span></a>
+    <a href="https://www.linkedin.com/in/aldo-carletta" target="_blank" rel="noopener" class="linkedin"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
+    <a href="index.html" class="home" id="btnHome"><i class="fas fa-house"></i> <span data-i18n="home">Home</span></a>
+    <button class="guida" onclick="apriGuida()" data-i18n-title="guideTitle" title="Come usare la mappa"><i class="fas fa-circle-info"></i> <span data-i18n="guide">Guida</span></button>
+  </div>
+</div>
+
+<div id="tabs">
+  <div class="tab active" data-tab="lavoro" title="Esperienze" onclick="mostraSezione('lavoro')"><i class="fas fa-briefcase"></i> <span data-i18n="tabWork">Esperienze</span> <span class="cnt" id="nEsp"></span></div>
+  <div class="tab" data-tab="formazione" title="Formazione" onclick="mostraSezione('formazione')"><i class="fas fa-graduation-cap"></i> <span data-i18n="tabEdu">Formazione</span> <span class="cnt" id="nForm"></span></div>
+  <div class="tab" data-tab="convegni" title="Convegni" onclick="mostraSezione('convegni')"><i class="fas fa-microphone"></i> <span data-i18n="tabTalks">Convegni</span> <span class="cnt" id="nConv"></span></div>
+  <div class="tab" data-tab="timeline" title="Timeline" onclick="mostraSezione('timeline')"><i class="fas fa-clock-rotate-left"></i> <span data-i18n="tabTime">Timeline</span></div>
+</div>
+
+<div id="container">
+  <div id="sidebar">
+    <div id="sec-lavoro" class="section active"></div>
+    <div id="sec-formazione" class="section"></div>
+    <div id="sec-convegni" class="section"></div>
+    <div id="sec-timeline" class="section"></div>
+  </div>
+  <div id="mapbox">
+    <div id="filterPanel">
+      <div class="fp-title"><i class="fas fa-layer-group"></i> <span data-i18n="filter">Filtra layer</span></div>
+      <label class="fp-row">
+        <input type="checkbox" checked onchange="toggleCategory('lavoro', this.checked)">
+        <span class="fp-dot" style="background:#0d9488;"></span>
+        <span data-i18n="tabWork">Esperienze</span>
+      </label>
+      <label class="fp-row formazione">
+        <input type="checkbox" checked onchange="toggleCategory('formazione', this.checked)">
+        <span class="fp-dot" style="background:#6366f1;"></span>
+        <span data-i18n="tabEdu">Formazione</span>
+      </label>
+      <label class="fp-row convegni">
+        <input type="checkbox" checked onchange="toggleCategory('convegni', this.checked)">
+        <span class="fp-dot" style="background:#f59e0b;"></span>
+        <span data-i18n="tabTalks">Convegni</span>
+      </label>
+    </div>
+    <div id="map"></div>
+    <div id="layerBtn" onclick="toggleLayer()">
+      <span class="icon"><i class="fas fa-map"></i></span>
+      <span id="layerLabel">Passa a Mappa</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL GUIDA ===== -->
+<div id="guida-overlay">
+  <div id="guida-box">
+    <h2><i class="fas fa-map-location-dot"></i> <span data-i18n-html="gTitle">Come usare la <span>mappa</span></span></h2>
+    <p class="guida-sub" data-i18n-html="gSub"></p>
+    <ul>
+      <li><span class="g-icon"><i class="fas fa-location-dot"></i></span><span data-i18n-html="g1"></span></li>
+      <li><span class="g-icon"><i class="fas fa-hand-pointer"></i></span><span data-i18n-html="g2"></span></li>
+      <li><span class="g-icon"><i class="fas fa-table-columns"></i></span><span data-i18n-html="g3"></span></li>
+      <li><span class="g-icon"><i class="fas fa-satellite"></i></span><span data-i18n-html="g4"></span></li>
+      <li><span class="g-icon"><i class="fas fa-filter"></i></span><span data-i18n-html="g5"></span></li>
+      <li><span class="g-icon"><i class="fas fa-clock-rotate-left"></i></span><span data-i18n-html="g6"></span></li>
+    </ul>
+    <div class="guida-footer">
+      <label class="guida-check"><input type="checkbox" id="chk-non-mostrare"> <span data-i18n-html="gHide">Non mostrare pi&ugrave;</span></label>
+      <button id="btn-chiudi-guida" onclick="chiudiGuida()" data-i18n-html="gStart">Inizia a esplorare &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/lang.js?v=6"></script>
+<script src="data/cv-data.js?v=7"></script>
+<script src="assets/js/mappa.js?v=7"></script>
+</body>
+</html>
